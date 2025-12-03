@@ -53,7 +53,7 @@ func (p *OpenAIProvider) Analyze(ctx context.Context, articleContent string, int
 				},
 			},
 			Temperature: 0.3, // Lower temperature for consistent JSON output
-			MaxTokens:   1000,
+			MaxTokens:   500,
 		},
 	)
 

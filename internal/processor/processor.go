@@ -92,11 +92,9 @@ func (p *Processor) Process(ctx context.Context, jobs []Job, callback ProcessCal
 	// Start workers
 	var wg sync.WaitGroup
 	for i := 0; i < p.maxWorkers; i++ {
-		wg.Add(1)
-		go func(workerID int) {
-			defer wg.Done()
-			p.worker(ctx, workerID, rateLimitedJobs, resultChan)
-		}(i)
+		wg.Go(func() {
+			p.worker(ctx, rateLimitedJobs, resultChan)
+		})
 	}
 
 	// Send jobs
@@ -133,7 +131,7 @@ func (p *Processor) Process(ctx context.Context, jobs []Job, callback ProcessCal
 }
 
 // worker processes jobs from the channel.
-func (p *Processor) worker(ctx context.Context, id int, jobs <-chan Job, results chan<- Result) {
+func (p *Processor) worker(ctx context.Context, jobs <-chan Job, results chan<- Result) {
 	for job := range jobs {
 		select {
 		case <-ctx.Done():

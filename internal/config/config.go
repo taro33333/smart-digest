@@ -26,7 +26,7 @@ type Config struct {
 	Threshold   int         `yaml:"threshold"`
 	OllamaURL   string      `yaml:"ollama_url"`
 	MaxWorkers  int         `yaml:"max_workers"`
-	RateLimit   int         `yaml:"rate_limit_per_second"`
+	RateLimit   float64     `yaml:"rate_limit_per_second"`
 }
 
 // DefaultConfig returns a configuration with sensible defaults.
@@ -38,7 +38,7 @@ func DefaultConfig() *Config {
 		Threshold:   70,
 		OllamaURL:   "http://localhost:11434",
 		MaxWorkers:  5,
-		RateLimit:   10,
+		RateLimit:   10.0,
 	}
 }
 
@@ -126,8 +126,8 @@ func (c *Config) Validate() error {
 		c.MaxWorkers = 5
 	}
 
-	if c.RateLimit < 1 {
-		c.RateLimit = 10
+	if c.RateLimit <= 0 {
+		c.RateLimit = 10.0
 	}
 
 	return nil

@@ -36,9 +36,16 @@ type Processor struct {
 }
 
 // New creates a new Processor with the given configuration.
-func New(f *fetcher.Fetcher, provider llm.Provider, interests []string, maxWorkers, rateLimit int) *Processor {
+func New(f *fetcher.Fetcher, provider llm.Provider, interests []string, maxWorkers int, rateLimit float64) *Processor {
 	// Calculate rate limit interval
-	tickDuration := time.Second / time.Duration(rateLimit)
+	// e.g., rateLimit=0.05 means 1 request per 20 seconds (3 RPM)
+	var tickDuration time.Duration
+	if rateLimit >= 1 {
+		tickDuration = time.Second / time.Duration(rateLimit)
+	} else {
+		// For rates < 1 per second, calculate interval in seconds
+		tickDuration = time.Duration(float64(time.Second) / rateLimit)
+	}
 
 	return &Processor{
 		fetcher:       f,

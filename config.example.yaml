@@ -1,0 +1,37 @@
+# smart-digest configuration file
+# Copy this file to config.yaml or ~/.config/smart-digest/config.yaml
+
+# LLM Provider: "openai" or "ollama"
+llm_provider: "openai"
+
+# OpenAI API Key (can also be set via OPENAI_API_KEY environment variable)
+api_key: ""
+
+# Model name
+# OpenAI: gpt-4o-mini, gpt-4o, gpt-4-turbo
+# Ollama: llama3, mistral, mixtral, etc.
+model: "gpt-4o-mini"
+
+# Ollama server URL (only used when llm_provider is "ollama")
+ollama_url: "http://localhost:11434"
+
+# Your interest areas (used for relevance scoring)
+# The more specific, the better the scoring accuracy
+interests:
+  - "Go"
+  - "Rust"
+  - "System Design"
+  - "Productivity"
+  - "DevOps"
+  - "Kubernetes"
+  - "Performance Optimization"
+  - "Open Source"
+
+# Minimum score to include in output (0-100)
+# Higher = stricter filtering
+threshold: 70
+
+# Concurrency settings
+max_workers: 5              # Number of parallel workers
+rate_limit_per_second: 10   # API calls per second limit
+

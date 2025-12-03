@@ -5,7 +5,6 @@
 *.so
 *.dylib
 smart-digest
-smart-digest-*
 
 # Test binary, built with `go test -c`
 *.test
